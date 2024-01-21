@@ -6,31 +6,32 @@ import sveltePreprocess from 'svelte-preprocess'
 import manifest from './src/manifest'
 
 export default defineConfig(({ mode }) => {
-  const production = mode === 'production'
+	const production = mode === 'production'
 
-  return {
-    build: {
-      emptyOutDir: true,
-      outDir: 'build',
-      rollupOptions: {
-        output: {
-          chunkFileNames: 'assets/chunk-[hash].js',
-        },
-      },
-    },
-    plugins: [
-      crx({ manifest }),
-      svelte({
-        compilerOptions: {
-          dev: !production,
-        },
-        preprocess: sveltePreprocess(),
-      }),
-    ],
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, 'src'),
-      },
-    },
-  }
+	return {
+		build: {
+			emptyOutDir: true,
+			outDir: 'build',
+			rollupOptions: {
+				output: {
+					chunkFileNames: 'assets/chunk-[hash].js',
+				},
+			},
+		},
+		plugins: [
+			crx({ manifest }),
+			svelte({
+				compilerOptions: {
+					dev: !production,
+				},
+				preprocess: sveltePreprocess(),
+			}),
+		],
+		resolve: {
+			alias: {
+				'@': path.resolve(__dirname, 'src'),
+				$lib: path.resolve('./src/lib'),
+			},
+		},
+	}
 })
